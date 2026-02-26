@@ -1,6 +1,8 @@
-# Script Launcher
+# <img src="doc/Script%20Launcher_icon.png" width="32"> Script Launcher
 
 複数のルートフォルダを登録し、Python スクリプトをツリー表示で管理・実行できる Blender アドオンです。
+
+<img src="doc/Script%20Launcher_featured.png" width="960">
 
 ## 機能
 
@@ -13,7 +15,7 @@
 
 ## 動作環境
 
-- Blender 3.4 以降
+- Blender 4.2 以降
 
 ## インストール
 
@@ -44,6 +46,17 @@
 - **Script Roots** — `+` / `-` ボタンでルートフォルダを追加・削除。リスト下のボックスでパスと表示名を編集
 
 初回インストール時は、アドオンフォルダ内の `scripts/` フォルダが自動的に登録されます。
+
+## 更新履歴
+
+### v1.1.1
+- ルートフォルダの展開/折り畳みに対応
+- Preferences にルートフォルダの上下移動ボタンを追加
+- 動作環境を Blender 4.2 以降に更新
+- Blender Extension 対応（`blender_manifest.toml` 追加）
+
+### v1.1.0
+- 初回リリース
 
 ## ライセンス
 

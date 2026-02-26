@@ -1,8 +1,8 @@
 bl_info = {
     "name": "Script Launcher",
     "author": "Moteki",
-    "version": (1, 1, 0),
-    "blender": (3, 4, 0),
+    "version": (1, 1, 1),
+    "blender": (4, 2, 0),
     "location": "3D Viewport > Sidebar > Script Launcher",
     "description": "Manage and run Python scripts from multiple root folders",
     "category": "Other",

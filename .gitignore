@@ -1,6 +1,9 @@
 # Claude Code local settings
 .claude/
 
+# binaries
+.edit_imaege
+
 # Release artifacts
 _release/
 
