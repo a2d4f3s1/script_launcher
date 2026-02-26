@@ -1,0 +1,13 @@
+# Claude Code local settings
+.claude/
+
+# Release artifacts
+_release/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# OS
+.DS_Store
+Thumbs.db
