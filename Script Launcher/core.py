@@ -141,8 +141,6 @@ def _add_folder_contents(sl_group, folder_path, expanded_paths, indent):
 
 class SCRIPTLAUNCHER_UL_ROOTS(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
-        if self.layout_type not in {'DEFAULT', 'COMPACT'}:
-            return
         display = item.label.strip() or os.path.basename(item.path.rstrip('/\\')) or item.path
         layout.label(text=display, icon='FILE_FOLDER')
 
@@ -153,9 +151,6 @@ class SCRIPTLAUNCHER_UL_ROOTS(bpy.types.UIList):
 
 class SCRIPTLAUNCHER_UL_LIST(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
-        if self.layout_type not in {'DEFAULT', 'COMPACT'}:
-            return
-
         # ルートヘッダー行
         if item.is_root_header:
             row = layout.row(align=True)
