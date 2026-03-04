@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "script_launcher"
-version = "1.1.2"
+version = "1.2.0"
 name = "Script Launcher"
 tagline = "Manage and run Python scripts from multiple root folders"
 maintainer = "Moteki"

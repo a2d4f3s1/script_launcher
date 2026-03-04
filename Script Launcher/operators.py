@@ -15,6 +15,7 @@ class SCRIPTLAUNCHER_OT_REFRESHLIST(bpy.types.Operator):
     bl_description = "Reload scripts list from all root folders"
 
     def execute(self, context):
+        core.invalidate_fs_cache()
         core.build_visible_tree(context)
         return {'FINISHED'}
 
@@ -37,7 +38,7 @@ class SCRIPTLAUNCHER_OT_RUNSCRIPT(bpy.types.Operator):
 
         item = sl_group.sl_items[sl_group.active_index]
 
-        if item.is_root_header or item.indent_level == -1:
+        if item.is_root_header:
             self.report({'WARNING'}, "Select a script file to run")
             return {'CANCELLED'}
 
@@ -83,7 +84,7 @@ class SCRIPTLAUNCHER_OT_OPENFILE(bpy.types.Operator):
 
         item = sl_group.sl_items[sl_group.active_index]
 
-        if item.is_folder or item.is_root_header or item.indent_level == -1:
+        if item.is_folder or item.is_root_header:
             self.report({'WARNING'}, "Select a script file to open")
             return {'CANCELLED'}
 
@@ -125,9 +126,6 @@ class SCRIPTLAUNCHER_OT_OPENEXPLORER(bpy.types.Operator):
             return {'CANCELLED'}
 
         item = sl_group.sl_items[sl_group.active_index]
-
-        if item.indent_level == -1:
-            return {'CANCELLED'}
 
         # ファイルなら親フォルダ、フォルダ/ルートヘッダーはそのパス
         if item.is_folder or item.is_root_header:
@@ -194,6 +192,20 @@ class SCRIPTLAUNCHER_OT_TOGGLEFOLDER(bpy.types.Operator):
 
 
 # ---------------------------------------------------------------------------
+# 検索クリア
+# ---------------------------------------------------------------------------
+
+class SCRIPTLAUNCHER_OT_CLEAR_SEARCH(bpy.types.Operator):
+    bl_idname = "sl.op_clear_search"
+    bl_label = "Clear Search"
+    bl_description = "Clear the search filter"
+
+    def execute(self, context):
+        context.scene.sl_group.search_text = ""
+        return {'FINISHED'}
+
+
+# ---------------------------------------------------------------------------
 # ルートフォルダの追加・削除（プリファレンス用）
 # ---------------------------------------------------------------------------
 
@@ -224,6 +236,7 @@ class SCRIPTLAUNCHER_OT_REMOVE_ROOT(bpy.types.Operator):
         addon_prefs.sl_folders.remove(idx)
         addon_prefs.active_root_index = max(0, min(idx, len(addon_prefs.sl_folders) - 1))
 
+        core.invalidate_fs_cache()
         core.build_visible_tree(context)
         return {'FINISHED'}
 
