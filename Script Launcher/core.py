@@ -19,7 +19,8 @@ def _get_entries(folder_path):
             entries = []
         folders = sorted([
             e for e in entries
-            if not e.startswith('.') and os.path.isdir(os.path.join(folder_path, e))
+            if not e.startswith('.') and e != '__pycache__'
+            and os.path.isdir(os.path.join(folder_path, e))
         ])
         files = sorted([
             e for e in entries

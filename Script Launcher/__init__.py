@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Script Launcher",
     "author": "Moteki",
-    "version": (1, 2, 0),
+    "version": (1, 2, 1),
     "blender": (4, 2, 0),
     "location": "3D Viewport > Sidebar > Script Launcher",
     "description": "Manage and run Python scripts from multiple root folders",
@@ -26,9 +26,9 @@ class SCRIPTLAUNCHER_PREFERENCES(bpy.types.AddonPreferences):
     bl_idname = __package__
 
     sl_panel_category: bpy.props.StringProperty(
-        name="Panel Category",
+        name="Category (N-Panel)",
         default="Script Launcher",
-        description="Category tab name for Script Launcher's panel",
+        description="Tab category in the N-panel sidebar (bl_category)",
         update=core.sl_update_category,
     )
 
@@ -45,7 +45,9 @@ class SCRIPTLAUNCHER_PREFERENCES(bpy.types.AddonPreferences):
     def draw(self, context):
         layout = self.layout
 
-        layout.prop(self, "sl_panel_category")
+        layout.label(text="General:")
+        box = layout.box()
+        box.prop(self, "sl_panel_category")
 
         layout.separator()
         layout.label(text="Script Roots:")

@@ -1,6 +1,6 @@
 import bpy
 import os
-import importlib.util
+import sys
 
 from . import core
 
@@ -50,9 +50,22 @@ class SCRIPTLAUNCHER_OT_RUNSCRIPT(bpy.types.Operator):
             self.report({'ERROR'}, f"File not found: {item.full_path}")
             return {'CANCELLED'}
 
-        spec = importlib.util.spec_from_file_location(item.name[:-3], item.full_path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
+        # Blender 標準の Text Editor「Run Script」と同様に __main__ として実行する
+        # （bytes のまま compile に渡すことで PEP 263 エンコーディング宣言を尊重）
+        with open(item.full_path, 'rb') as f:
+            source = f.read()
+        code = compile(source, item.full_path, 'exec')
+        namespace = {'__name__': '__main__', '__file__': item.full_path}
+
+        # スクリプトが import するモジュールの __pycache__ でユーザーの
+        # スクリプトフォルダを汚さないよう、実行中だけ bytecode 書き込みを抑止
+        old_flag = sys.dont_write_bytecode
+        sys.dont_write_bytecode = True
+        try:
+            exec(code, namespace)
+        finally:
+            sys.dont_write_bytecode = old_flag
+
         self.report({'INFO'}, f"{item.name} executed successfully")
         return {'FINISHED'}
 

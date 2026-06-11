@@ -43,12 +43,18 @@
 
 **Edit → Preferences → Add-ons → Script Launcher** から設定できます。
 
-- **Panel Category** — Sidebar のタブ名を変更（デフォルト: `Script Launcher`）
+- **Category (N-Panel)** — Sidebar のタブ名を変更（デフォルト: `Script Launcher`）
 - **Script Roots** — `+` / `-` ボタンでルートフォルダを追加・削除。リスト下のボックスでパスと表示名を編集
 
 初回インストール時は、アドオンフォルダ内の `scripts/` フォルダが自動的に登録されます。
 
 ## 更新履歴
+
+### v1.2.1
+- スクリプト実行時に `__pycache__` フォルダが作成されないように変更
+- 既存の `__pycache__` フォルダをツリーに表示しないように変更
+- スクリプトが `__name__ == "__main__"` として実行されるように変更（`if __name__ == "__main__":` ブロックを含むスクリプトが正しく動作）
+- Preferences の表記を整理（`General` セクション、`Category (N-Panel)`）
 
 ### v1.2.0
 - スクリプト検索機能を追加（リアルタイムフィルタリング）
