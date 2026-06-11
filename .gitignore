@@ -6,6 +6,13 @@
 
 # Release artifacts
 _release/
+dist/
+
+# Local dev tooling (machine-specific paths; kept local, not published)
+tools/
+
+# linkmap client markers
+*.client
 
 # Python
 __pycache__/
