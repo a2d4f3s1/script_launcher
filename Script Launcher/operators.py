@@ -50,21 +50,27 @@ class SCRIPTLAUNCHER_OT_RUNSCRIPT(bpy.types.Operator):
             self.report({'ERROR'}, f"File not found: {item.full_path}")
             return {'CANCELLED'}
 
-        # Blender 標準の Text Editor「Run Script」と同様に __main__ として実行する
-        # （bytes のまま compile に渡すことで PEP 263 エンコーディング宣言を尊重）
-        with open(item.full_path, 'rb') as f:
-            source = f.read()
-        code = compile(source, item.full_path, 'exec')
-        namespace = {'__name__': '__main__', '__file__': item.full_path}
-
+        # 実行は Blender 標準オペレーター script.python_file_run に委譲する。
+        # これは内部で __name__ == "__main__" / __file__ を設定してファイルを実行し
+        # （Text Editor の Run Script と同じセマンティクス）、アドオン側のコードから
+        # exec/eval を排除する（extensions.blender.org のポリシー対応）。
+        #
         # スクリプトが import するモジュールの __pycache__ でユーザーの
         # スクリプトフォルダを汚さないよう、実行中だけ bytecode 書き込みを抑止
         old_flag = sys.dont_write_bytecode
         sys.dont_write_bytecode = True
         try:
-            exec(code, namespace)
+            result = bpy.ops.script.python_file_run(filepath=item.full_path)
+        except RuntimeError as exc:
+            # スクリプト内の例外は bpy.ops 経由で RuntimeError として伝播する
+            self.report({'ERROR'}, f"{item.name} failed: {exc}")
+            return {'CANCELLED'}
         finally:
             sys.dont_write_bytecode = old_flag
+
+        if 'CANCELLED' in result:
+            self.report({'ERROR'}, f"{item.name} failed (see system console)")
+            return {'CANCELLED'}
 
         self.report({'INFO'}, f"{item.name} executed successfully")
         return {'FINISHED'}
