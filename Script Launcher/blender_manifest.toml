@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "script_launcher"
-version = "1.2.2"
+version = "1.2.3"
 name = "Script Launcher"
 tagline = "Manage and run Python scripts from multiple root folders"
 maintainer = "Moteki"
@@ -11,3 +11,6 @@ website = "https://github.com/a2d4f3s1/script_launcher"
 tags = ["Development", "Pipeline"]
 blender_version_min = "4.2.0"
 license = ["SPDX:GPL-3.0-or-later"]
+
+[permissions]
+files = "Read and run Python scripts from user folders"
